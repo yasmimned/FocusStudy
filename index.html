@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FocusStudy — Monitor de Estudos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">✓</div>
+      <div>
+        <strong>FocusStudy</strong>
+        <span>Monitor de estudos</span>
+      </div>
+    </div>
+
+    <nav>
+      <button class="nav-btn active" data-section="dashboard">⌂ <span>Início</span></button>
+      <button class="nav-btn" data-section="conteudos">☑ <span>Conteúdos</span></button>
+      <button class="nav-btn" data-section="anotacoes">✎ <span>Anotações</span></button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="mini-stat">
+        <span>Tempo total</span>
+        <strong id="sidebarTotal">00:00:00</strong>
+      </div>
+      <button id="resetData" class="danger-link">Limpar dados</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">SEU ESPAÇO DE ESTUDOS</p>
+        <h1 id="pageTitle">Olá! Vamos estudar?</h1>
+      </div>
+      <div class="date-box" id="currentDate"></div>
+    </header>
+
+    <section id="dashboard" class="section active">
+      <div class="hero-grid">
+        <div class="card timer-card">
+          <div class="card-heading">
+            <div>
+              <span class="label">CRONÔMETRO</span>
+              <h2>Tempo de estudo</h2>
+            </div>
+            <span class="live-dot" id="timerStatus">Parado</span>
+          </div>
+
+          <div class="timer" id="timerDisplay">00:00:00</div>
+
+          <div class="timer-controls">
+            <button id="startPause" class="primary-btn">▶ Iniciar</button>
+            <button id="finishTimer" class="secondary-btn">■ Finalizar</button>
+            <button id="resetTimer" class="icon-btn" title="Zerar cronômetro">↻</button>
+          </div>
+
+          <div class="session-note">
+            <input id="sessionSubject" type="text" placeholder="Matéria/sessão (opcional)">
+          </div>
+        </div>
+
+        <div class="card progress-card">
+          <div class="card-heading">
+            <div>
+              <span class="label">PROGRESSO</span>
+              <h2>Seus estudos</h2>
+            </div>
+          </div>
+          <div class="progress-circle">
+            <div>
+              <strong id="progressPercent">0%</strong>
+              <span>concluído</span>
+            </div>
+          </div>
+          <p class="muted"><span id="doneCount">0</span> de <span id="totalCount">0</span> conteúdos concluídos</p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card"><span>Hoje</span><strong id="todayTime">00:00:00</strong><small>tempo estudado</small></div>
+        <div class="stat-card"><span>Sessões</span><strong id="sessionCount">0</strong><small>sessões finalizadas</small></div>
+        <div class="stat-card"><span>Conteúdos</span><strong id="contentStat">0</strong><small>itens cadastrados</small></div>
+        <div class="stat-card"><span>Anotações</span><strong id="notesStat">0</strong><small>anotações salvas</small></div>
+      </div>
+
+      <div class="two-columns">
+        <div class="card">
+          <div class="card-heading">
+            <div><span class="label">PRÓXIMOS CONTEÚDOS</span><h2>Checklist</h2></div>
+            <button class="text-btn" data-go="conteudos">Ver tudo →</button>
+          </div>
+          <div id="dashboardChecklist" class="compact-list"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-heading">
+            <div><span class="label">ÚLTIMAS ANOTAÇÕES</span><h2>Notas</h2></div>
+            <button class="text-btn" data-go="anotacoes">Ver tudo →</button>
+          </div>
+          <div id="dashboardNotes" class="notes-preview"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="conteudos" class="section">
+      <div class="section-header">
+        <div><span class="label">ORGANIZAÇÃO</span><h2>Conteúdos para estudar</h2><p class="muted">Marque o que você já estudou e acompanhe seu progresso.</p></div>
+        <button id="addContentBtn" class="primary-btn">+ Novo conteúdo</button>
+      </div>
+
+      <div class="card">
+        <div class="add-row" id="contentForm">
+          <input id="contentInput" type="text" placeholder="Ex.: Recursão, ponteiros, cache...">
+          <select id="contentSubject">
+            <option value="Geral">Geral</option>
+            <option value="Algoritmos">Algoritmos</option>
+            <option value="Programação">Programação</option>
+            <option value="Matemática">Matemática</option>
+            <option value="Arquitetura">Arquitetura</option>
+            <option value="Outro">Outro</option>
+          </select>
+          <button id="saveContent" class="primary-btn">Adicionar</button>
+        </div>
+        <div class="filter-row">
+          <button class="filter active" data-filter="all">Todos</button>
+          <button class="filter" data-filter="pending">Pendentes</button>
+          <button class="filter" data-filter="done">Concluídos</button>
+        </div>
+        <div id="contentList" class="content-list"></div>
+      </div>
+    </section>
+
+    <section id="anotacoes" class="section">
+      <div class="section-header">
+        <div><span class="label">ANOTAÇÕES</span><h2>Seu caderno de estudos</h2><p class="muted">Registre explicações, dúvidas, fórmulas e resumos.</p></div>
+        <button id="newNoteBtn" class="primary-btn">+ Nova anotação</button>
+      </div>
+
+      <div class="notes-layout">
+        <div class="card notes-list-card">
+          <div id="notesList"></div>
+        </div>
+        <div class="card editor-card">
+          <input id="noteTitle" type="text" placeholder="Título da anotação">
+          <select id="noteSubject">
+            <option value="Geral">Geral</option>
+            <option value="Algoritmos">Algoritmos</option>
+            <option value="Programação">Programação</option>
+            <option value="Matemática">Matemática</option>
+            <option value="Arquitetura">Arquitetura</option>
+            <option value="Outro">Outro</option>
+          </select>
+          <textarea id="noteBody" placeholder="Escreva sua anotação aqui..."></textarea>
+          <div class="editor-actions">
+            <span id="saveHint" class="muted">Salvo automaticamente</span>
+            <button id="deleteNote" class="danger-btn">Excluir</button>
+            <button id="saveNote" class="primary-btn">Salvar anotação</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
